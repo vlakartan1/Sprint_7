@@ -35,36 +35,31 @@ public class CreateCourierTest {
         authCourierAndReceiveId();
     }
 
-    @Step
-    @Description("Создание учетной записи без логина и пароля")
+    @Step("Создание учетной записи без логина и пароля")
     private void requestWithoutLoginAndPassword() {
         courier.requestWithoutLoginAndPassword(Constants.CONTENT_TYPE, Constants.APPLICATION, withoutLoginAndPassword, Constants.COURIER_API);
         System.out.println("Шаг 1: Недостаточно данных для создания учетной записи. Нет логина или пароля");
     }
 
-    @Step
-    @Description("Создание нового курьера")
+    @Step("Создание нового курьера")
     private void setNewCourier() {
         courier.setNewCourier(Constants.CONTENT_TYPE, Constants.APPLICATION, newCourier, Constants.COURIER_API);
         System.out.println("Шаг 2: Клиент успешно создан");
     }
 
-    @Step
-    @Description("Создание курьера с одинаковыми данными")
+    @Step("Создание курьера с одинаковыми данными")
     private void youCannotCreateIdenticalCouriers() {
         courier.youCannotCreateIdenticalCouriers(Constants.CONTENT_TYPE, Constants.APPLICATION, newCourier, Constants.COURIER_API);
         System.out.println("Шаг 3: Невозможно создать курьера с одинаковыми данными. Такой логин уже существует");
     }
 
-    @Step
-    @Description("Авторизация курьера и получение его ID")
+    @Step("Авторизация курьера и получение его ID")
     private void authCourierAndReceiveId() {
         courierId = courier.authCourierAndReceiveId(Constants.CONTENT_TYPE, Constants.APPLICATION, authCourier, Constants.COURIER_LOGIN_API);
         System.out.println("Шаг 4: Курьер успешно авторизован и получен его ID: " + courierId);
     }
 
-    @Step
-    @Description("Удалить курьера по полученному ID и проверить, что курьера с таким ID не существует")
+    @Step("Удалить курьера по полученному ID и проверить, что курьера с таким ID не существует")
     private void removeCourierById() {
         courier.removeCourierById(courierId, Constants.REMOVE_COURIER_API);
         System.out.println("Шаг 5: Данные курьера успешно удалены");

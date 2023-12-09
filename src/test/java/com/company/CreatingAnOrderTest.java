@@ -1,6 +1,8 @@
 package com.company;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +43,16 @@ public class CreatingAnOrderTest {
     }
 
     @Test
+    @DisplayName("Тесты на получение заказов")
+    @Description("Тесты:" +
+            "на BLACK, " +
+            "на GREY, " +
+            "на GREY и BLACK, " +
+            "и без цвета")
     @Step("Получить заказы")
     public void makeOrderTest() {
         creatingAnOrder.makeOrder(Constants.CONTENT_TYPE, Constants.APPLICATION, creatingAnOrder, Constants.ORDER_API);
-        System.out.println("Заказ принят от " + creatingAnOrder.getFirstName());
+        System.out.println("Заказ принят от " + creatingAnOrder.getFirstName() +
+                " " + creatingAnOrder.getLastName() + " цвет " + creatingAnOrder.getColor());
     }
 }

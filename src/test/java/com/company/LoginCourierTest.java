@@ -35,25 +35,25 @@ public class LoginCourierTest {
     }
 
     @Step("Создание курьера для теста авторизации")
-    private void setNewCourier(){
+    private void setNewCourier() {
         courier.setNewCourier(Constants.CONTENT_TYPE, Constants.APPLICATION, newCourier, Constants.COURIER_API);
         System.out.println("Шаг 1: Клиент успешно создан");
     }
 
     @Step("Авторизация курьера и получение его ID")
-    private void authCourierAndReceiveId(){
+    private void authCourierAndReceiveId() {
         courierId = courier.authCourierAndReceiveId(Constants.CONTENT_TYPE, Constants.APPLICATION, authCourier, Constants.COURIER_LOGIN_API);
         System.out.println("Шаг 2: Курьер успешно авторизован и получен его ID: " + courierId);
     }
 
     @Step("Тест на авторизацию с несуществующими данными")
-    private void authNonExistentlogin(){
+    private void authNonExistentlogin() {
         courier.authNonExistentlogin(Constants.CONTENT_TYPE, Constants.APPLICATION, nonExistentlogin, Constants.COURIER_LOGIN_API);
         System.out.println("Шаг 3: Учетная запись не найдена");
     }
 
     @Step("Авторизация с невалидными данными. данными без пароля")
-    private void authWithoutPassword(){
+    private void authWithoutPassword() {
         courier.authWithoutPassword(Constants.CONTENT_TYPE, Constants.APPLICATION, withoutPassword, Constants.COURIER_LOGIN_API);
         System.out.println("Шаг 4: Недостаточно данных для авторизации. Перепроверьте данные.");
     }
