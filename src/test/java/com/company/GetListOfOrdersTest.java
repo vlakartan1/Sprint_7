@@ -7,8 +7,11 @@ import io.restassured.RestAssured;
 import org.junit.Before;
 import org.junit.Test;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.empty;
+
 public class GetListOfOrdersTest {
-    GetListOfOrders getListOfOrders = new GetListOfOrders();
 
     @Before
     public void beforeTest() {
@@ -20,7 +23,17 @@ public class GetListOfOrdersTest {
     @DisplayName("Тест на получение списка заказов")
     @Description("Получение списка заказов")
     public void testGetOrders() {
-        getListOfOrders.testGetOrders();
+        given()
+                .when()
+                .get(Constants.ORDER_API)
+                .then()
+                .statusCode(200)
+                .body("orders", not(empty()))
+                .body("pageInfo.page", equalTo(0))
+                .body("pageInfo.total", greaterThan(0))
+                .body("pageInfo.limit", greaterThan(0))
+                .body("availableStations", not(empty()));
+
         System.out.println("Получен список заказов");
     }
 }

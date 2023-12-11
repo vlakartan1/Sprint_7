@@ -111,7 +111,7 @@ public class Courier {
                 .path("id").toString();
 
 
-        System.out.println("Успешная авторизация и получен ID курьера: " + courierId);
+        System.out.println("Успешная авторизация курьера и получение его ID : " + courierId);
         return courierId;
     }
 
