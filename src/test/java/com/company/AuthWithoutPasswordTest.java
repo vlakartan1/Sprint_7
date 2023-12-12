@@ -11,6 +11,7 @@ import org.junit.Test;
 public class AuthWithoutPasswordTest {
     Courier courier = new Courier();
     private static final Courier withoutPassword = new Courier("karoline", "");
+    private static final String message = "Недостаточно данных для входа";
 
     @Before
     public void setUp() {
@@ -26,7 +27,6 @@ public class AuthWithoutPasswordTest {
 
     @Step("Авторизация без обязательных данных: без пароля")
     private void authWithoutPassword() {
-        courier.authWithoutPassword(Constants.CONTENT_TYPE, Constants.APPLICATION, withoutPassword, Constants.COURIER_LOGIN_API);
-        System.out.println("Недостаточно данных для авторизации. Перепроверьте данные.");
+        courier.authWithoutPassword(withoutPassword, 400, message);
     }
 }

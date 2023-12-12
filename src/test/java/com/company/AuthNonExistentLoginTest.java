@@ -11,6 +11,7 @@ import org.junit.Test;
 public class AuthNonExistentLoginTest {
     Courier courier = new Courier();
     private static final Courier nonExistentlogin = new Courier("karoline888", "888");
+    private static final String message = "Учетная запись не найдена";
 
     @Before
     public void setUp() {
@@ -26,8 +27,7 @@ public class AuthNonExistentLoginTest {
 
     @Step("Тест на авторизацию с несуществующими данными")
     private void authNonExistentlogin() {
-        courier.authNonExistentlogin(Constants.CONTENT_TYPE, Constants.APPLICATION, nonExistentlogin, Constants.COURIER_LOGIN_API);
-        System.out.println("Учетная запись не найдена");
+        courier.authNonExistentlogin(nonExistentlogin, 404, message);
     }
 
 }

@@ -51,61 +51,61 @@ public class Courier {
 
 
     //Создание учетной записи без логина и пароля
-    public void requestWithoutLoginAndPassword(String content, String application, Courier withoutLoginAndPassword, String api) {
+    public void requestWithoutLoginAndPassword(Courier withoutLoginAndPassword, int code, String resp) {
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(withoutLoginAndPassword)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_API);
         response
                 .then()
-                .statusCode(400)
-                .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+                .statusCode(code)
+                .body("message", equalTo(resp));
     }
 
     //Создание курьера
-    public void setNewCourier(String content, String application, Courier newCourier, String api) {
+    public void setNewCourier(Courier newCourier, int code, boolean success) {
 
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(newCourier)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_API);
 
         response
                 .then()
-                .statusCode(201)
-                .body("ok", equalTo(true));
+                .statusCode(code)
+                .body("ok", equalTo(success));
     }
 
     //Нельзя Создать одинаковых курьеров")
-    public void youCannotCreateIdenticalCouriers(String content, String application, Courier newCourier, String api) {
+    public void youCannotCreateIdenticalCouriers(Courier newCourier, int code, String message) {
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(newCourier)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_API);
         response
                 .then()
                 .statusCode(409)
-                .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+                .body("message", equalTo(message));
     }
 
 
     //Авторизоваться от созданного курьера и получить его id
-    public String authCourierAndReceiveId(String content, String application, Courier authCourier, String api) {
+    public String authCourierAndReceiveId(Courier authCourier, int code) {
 
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(authCourier)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_LOGIN_API);
 
-        String courierId = response.then().statusCode(200)
+        String courierId = response.then().statusCode(code)
                 .body("id", notNullValue())
                 .extract()
                 .path("id").toString();
@@ -116,61 +116,61 @@ public class Courier {
     }
 
     //Авторизоваться с несуществующим логином
-    public void authNonExistentlogin(String content, String application, Courier nonExistentlogin, String api) {
+    public void authNonExistentlogin(Courier nonExistentlogin, int code, String message) {
 
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(nonExistentlogin)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_LOGIN_API);
 
         response
                 .then()
-                .statusCode(404)
-                .body("message", equalTo("Учетная запись не найдена"));
+                .statusCode(code)
+                .body("message", equalTo(message));
     }
 
     //Авторизоваться без обязательного поля Пароля
-    public void authWithoutPassword(String content, String application, Courier withoutPassword, String api) {
+    public void authWithoutPassword(Courier withoutPassword, int code, String message) {
 
         Response response =
                 given()
-                        .header(content, application)
+                        .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                         .body(withoutPassword)
                         .when()
-                        .post(api);
+                        .post(Constants.COURIER_LOGIN_API);
 
         response
                 .then()
-                .statusCode(400)
-                .body("message", equalTo("Недостаточно данных для входа"));
+                .statusCode(code)
+                .body("message", equalTo(message));
     }
 
     //Удалить курьера по его id
-    public void removeCourierById(String courierId, String api) {
+    public void removeCourierById(String courierId, int code, boolean success) {
         Response response =
                 given()
                         .pathParam("id", courierId)
                         .when()
-                        .delete(api);
+                        .delete(Constants.REMOVE_COURIER_API);
         response
                 .then()
-                .statusCode(200)
-                .body("ok", equalTo(true));
+                .statusCode(code)
+                .body("ok", equalTo(success));
     }
 
     //Попробовать удалить курьера по несуществующему id
-    public void removeCourierNonExistentId(String courierId, String api) {
+    public void removeCourierNonExistentId(String courierId, int code, String message) {
         Response response =
                 given()
                         .pathParam("id", courierId)
                         .when()
-                        .delete(api);
+                        .delete(Constants.REMOVE_COURIER_API);
         response
                 .then()
-                .statusCode(404)
-                .body("message", equalTo("Курьера с таким id нет."));
+                .statusCode(code)
+                .body("message", equalTo(message));
     }
 
 }

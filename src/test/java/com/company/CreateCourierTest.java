@@ -12,12 +12,15 @@ import org.junit.Test;
 public class CreateCourierTest {
     Courier courier = new Courier();
     String courierId;
+    private final static String message = "Курьера с таким id нет.";
+    private static final String messageLogin = "Этот логин уже используется. Попробуйте другой.";
     private static final Courier newCourier = new Courier("karoline", "121212", "КаролинаА");
     private static final Courier authCourier = new Courier("karoline", "121212");
 
     @Before
     public void setUp() {
         RestAssured.baseURI = Constants.BASE_URL;
+        setNewCourier();
     }
 
 
@@ -25,31 +28,27 @@ public class CreateCourierTest {
     @DisplayName("Проверка на создаение клиента с валидными данными и клиента с дублирующими данными")
     @Description("Тест: на невозможность создать одинаковых курьеров")
     public void courierTest() {
-        setNewCourier();
         youCannotCreateIdenticalCouriers();
     }
 
     @Step("Создание нового курьера с уникальными данными")
     @Description("Создание нового курьера")
     private void setNewCourier() {
-        courier.setNewCourier(Constants.CONTENT_TYPE, Constants.APPLICATION, newCourier, Constants.COURIER_API);
-        System.out.println("Шаг 1: Клиент успешно создан");
+        courier.setNewCourier(newCourier, 201, true);
     }
 
     @Step("Создание курьера с одинаковыми (теми же) данными")
     @Description("Создание курьера с одинаковыми данными")
     private void youCannotCreateIdenticalCouriers() {
-        courier.youCannotCreateIdenticalCouriers(Constants.CONTENT_TYPE, Constants.APPLICATION, newCourier, Constants.COURIER_API);
-        System.out.println("Шаг 2: Невозможно создать курьера с одинаковыми данными. Такой логин уже существует");
+        courier.youCannotCreateIdenticalCouriers(newCourier, 409, messageLogin);
     }
 
     @Step("Удалить курьера по полученному ID и проверить, что курьера с таким ID не существует")
     @Description("Удалить курьера по полученному ID и проверить, что курьера с таким ID не существует")
     private void removeCourierById() {
-        courierId = courier.authCourierAndReceiveId(Constants.CONTENT_TYPE, Constants.APPLICATION, authCourier, Constants.COURIER_LOGIN_API);
-        courier.removeCourierById(courierId, Constants.REMOVE_COURIER_API);
-        courier.removeCourierNonExistentId(courierId, Constants.REMOVE_COURIER_API);
-        System.out.println("Шаг 3: Курьер успешно удален и с таким id курьеров не существует");
+        courierId = courier.authCourierAndReceiveId(authCourier, 200);
+        courier.removeCourierById(courierId, 200, true);
+        courier.removeCourierNonExistentId(courierId, 404, message);
     }
 
     @After

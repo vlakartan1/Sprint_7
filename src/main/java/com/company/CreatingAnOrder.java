@@ -105,14 +105,14 @@ public class CreatingAnOrder {
         this.color = color;
     }
 
-    public void makeOrder(String content, String application, CreatingAnOrder creatingAnOrder, String orderApi) {
+    public void makeOrder(CreatingAnOrder creatingAnOrder, int code) {
         given()
-                .header(content, application)
+                .header(Constants.CONTENT_TYPE, Constants.APPLICATION)
                 .body(creatingAnOrder)
                 .when()
-                .post(orderApi)
+                .post(Constants.ORDER_API)
                 .then()
                 .body("track", notNullValue())
-                .statusCode(201);
+                .statusCode(code);
     }
 }

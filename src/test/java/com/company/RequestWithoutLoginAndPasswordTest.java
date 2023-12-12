@@ -12,6 +12,7 @@ import org.junit.Test;
 public class RequestWithoutLoginAndPasswordTest {
     Courier courier = new Courier();
     private static final Courier withoutLoginAndPassword = new Courier();
+    private static final String resp = "Недостаточно данных для создания учетной записи";
 
 
     @Before
@@ -30,8 +31,7 @@ public class RequestWithoutLoginAndPasswordTest {
     @Step("Тест: на Создание учетной записи без логина и пароля")
     @Description("Тест: Создание учетной записи без логина и пароля")
     private void requestWithoutLoginAndPassword() {
-        courier.requestWithoutLoginAndPassword(Constants.CONTENT_TYPE, Constants.APPLICATION, withoutLoginAndPassword, Constants.COURIER_API);
-        System.out.println("Недостаточно данных для создания учетной записи. Нет логина или пароля");
+        courier.requestWithoutLoginAndPassword(withoutLoginAndPassword, 400, resp);
     }
 
 }

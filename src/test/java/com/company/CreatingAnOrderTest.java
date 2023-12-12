@@ -51,8 +51,6 @@ public class CreatingAnOrderTest {
             "и без цвета")
     @Step("Получить заказы")
     public void makeOrderTest() {
-        creatingAnOrder.makeOrder(Constants.CONTENT_TYPE, Constants.APPLICATION, creatingAnOrder, Constants.ORDER_API);
-        System.out.println("Заказ принят от " + creatingAnOrder.getFirstName() +
-                " " + creatingAnOrder.getLastName() + " цвет " + creatingAnOrder.getColor());
+        creatingAnOrder.makeOrder(creatingAnOrder, 201);
     }
 }

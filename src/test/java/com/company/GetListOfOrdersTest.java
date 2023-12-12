@@ -34,6 +34,5 @@ public class GetListOfOrdersTest {
                 .body("pageInfo.limit", greaterThan(0))
                 .body("availableStations", not(empty()));
 
-        System.out.println("Получен список заказов");
     }
 }
